@@ -2,12 +2,41 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 
 	"github.com/samakers/cc-validator/internal/luhn"
 )
 
 func main() {
-	//Test CC Number
-	//4417 1234 5678 9113
-	fmt.Println(luhn.IsValidLuhn([]int{4, 4, 1, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 3}))
+
+	//TODO
+	//Instead of manually inserting split CC number handle this when inputting number as an argument
+	cc := os.Args[1]
+	num, err := strconv.Atoi(cc)
+	if err != nil {
+		fmt.Println("Invalid input:", err)
+		return
+	}
+
+	// Split the integer into individual digits
+	numArray := splitInteger(num)
+
+	fmt.Println(numArray)
+	fmt.Println(luhn.IsValidLuhn(numArray))
+}
+
+func splitInteger(num int) []int {
+	// Convert the integer to a string
+	numStr := strconv.Itoa(num)
+
+	// Create an array to store the digits
+	numArray := make([]int, len(numStr))
+
+	// Split the string into individual characters and convert them to integers
+	for i, digit := range numStr {
+		numArray[i], _ = strconv.Atoi(string(digit))
+	}
+
+	return numArray
 }
