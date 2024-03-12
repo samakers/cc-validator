@@ -6,9 +6,13 @@ import (
 	"strconv"
 
 	"github.com/samakers/cc-validator/internal/luhn"
+	"github.com/samakers/cc-validator/server"
 )
 
 func main() {
+
+	//Start server
+	server.Start()
 
 	cc := os.Args[1]
 	num, err := strconv.Atoi(cc)

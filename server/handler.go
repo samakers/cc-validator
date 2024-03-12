@@ -1,3 +1,9 @@
+package server
+
+func main() {
+
+}
+
 //TODO
 //Accept valid JSON requests and reject invalid requests using an HTTP 400 status code
 //Extract the credit card number from the JSON payload:

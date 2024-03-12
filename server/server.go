@@ -1,4 +1,10 @@
-//TODO
-//Create an HTTP server
+package server
 
-//Configure the server to respond to GET requests with a JSON payload
+import (
+	"net/http"
+)
+
+func Start() {
+	http.HandleFunc("/validate", splitInteger)
+	http.ListenAndServe(":8090", nil)
+}
