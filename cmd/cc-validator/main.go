@@ -10,8 +10,6 @@ import (
 
 func main() {
 
-	//TODO
-	//Instead of manually inserting split CC number handle this when inputting number as an argument
 	cc := os.Args[1]
 	num, err := strconv.Atoi(cc)
 	if err != nil {
