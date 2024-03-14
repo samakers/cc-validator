@@ -17,22 +17,18 @@ This is a simple Go application that validates credit card numbers using the Luh
 2. Navigate to the project directory:
 
     ```bash
-    cd cc-validator
+    cd cc-validator\cmd\cc-validator
     ```
 
 3. Build the application:
 
     ```bash
-    go build -o app
+    go build
     ```
 
 ## Usage
 
 1. Start the server:
-
-    ```bash
-    ./app
-    ```
 
 2. Send a GET request to the `/validate` endpoint with a JSON payload containing the credit card number. For example, using curl:
 
