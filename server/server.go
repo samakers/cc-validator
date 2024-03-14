@@ -5,6 +5,6 @@ import (
 )
 
 func Start() {
-	http.HandleFunc("/validate", splitInteger)
+	http.HandleFunc("/validate", ValidateHandler)
 	http.ListenAndServe(":8090", nil)
 }

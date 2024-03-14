@@ -10,11 +10,9 @@ import (
 )
 
 func main() {
-
-	//Start server
-	server.Start()
-
+	//Testing with a single credit card number via command line
 	cc := os.Args[1]
+	//Convert cc number to integer
 	num, err := strconv.Atoi(cc)
 	if err != nil {
 		fmt.Println("Invalid input:", err)
@@ -22,23 +20,11 @@ func main() {
 	}
 
 	// Split the integer into individual digits
-	numArray := splitInteger(num)
+	numArray := server.SplitInteger(num)
 
 	fmt.Println(numArray)
 	fmt.Println(luhn.IsValidLuhn(numArray))
-}
 
-func splitInteger(num int) []int {
-	// Convert the integer to a string
-	numStr := strconv.Itoa(num)
-
-	// Create an array to store the digits
-	numArray := make([]int, len(numStr))
-
-	// Split the string into individual characters and convert them to integers
-	for i, digit := range numStr {
-		numArray[i], _ = strconv.Atoi(string(digit))
-	}
-
-	return numArray
+	//Start server
+	server.Start()
 }
