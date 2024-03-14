@@ -1,18 +1,32 @@
 package server
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/samakers/cc-validator/internal/luhn" // replace with the actual import path
+	"github.com/samakers/cc-validator/internal/luhn"
 )
 
+type RequestPayload struct {
+	Num string `json:"num"`
+}
+
+type ResponsePayload struct {
+	IsValid bool `json:"is_valid"`
+}
+
 func ValidateHandler(w http.ResponseWriter, r *http.Request) {
-	// Get the number from the request
-	numStr := r.URL.Query().Get("num")
+	// Decode the JSON payload
+	var p RequestPayload
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
 
 	// Convert the number to an integer
-	num, err := strconv.Atoi(numStr)
+	num, err := strconv.Atoi(p.Num)
 	if err != nil {
 		http.Error(w, "Invalid number", http.StatusBadRequest)
 		return
@@ -22,11 +36,18 @@ func ValidateHandler(w http.ResponseWriter, r *http.Request) {
 	numArray := SplitInteger(num)
 
 	// Check if the number is valid according to the Luhn algorithm
-	if luhn.IsValidLuhn(numArray) {
-		w.Write([]byte("Passed Luhn!"))
-	} else {
-		http.Error(w, "Failed Luhn!", http.StatusBadRequest)
+	isValid := luhn.IsValidLuhn(numArray)
+
+	// Create the response payload
+	resp := ResponsePayload{
+		IsValid: isValid,
 	}
+
+	// Set the Content-Type header
+	w.Header().Set("Content-Type", "application/json")
+
+	// Return the payload back to the user
+	json.NewEncoder(w).Encode(resp)
 }
 
 func SplitInteger(num int) []int {
