@@ -1,19 +1,32 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/samakers/cc-validator/internal/luhn" // replace with the actual import path
 )
 
 func ValidateHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the number from the request
-	num := r.URL.Query().Get("num")
+	numStr := r.URL.Query().Get("num")
 
-	// Respond with the split number
-	w.Write([]byte(fmt.Sprint(num)))
-	w.Write([]byte("\n"))
-	w.Write([]byte("Passed Luhn!"))
+	// Convert the number to an integer
+	num, err := strconv.Atoi(numStr)
+	if err != nil {
+		http.Error(w, "Invalid number", http.StatusBadRequest)
+		return
+	}
+
+	// Split the integer into individual digits
+	numArray := SplitInteger(num)
+
+	// Check if the number is valid according to the Luhn algorithm
+	if luhn.IsValidLuhn(numArray) {
+		w.Write([]byte("Passed Luhn!"))
+	} else {
+		http.Error(w, "Failed Luhn!", http.StatusBadRequest)
+	}
 }
 
 func SplitInteger(num int) []int {
