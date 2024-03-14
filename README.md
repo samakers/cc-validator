@@ -11,7 +11,7 @@ This is a simple Go application that validates credit card numbers using the Luh
 1. Clone the repository:
 
     ```bash
-    git clone [https://github.com/samakers/cc-validator]
+    git clone https://github.com/samakers/cc-validator
     ```
 
 2. Navigate to the project directory:
